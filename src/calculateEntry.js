@@ -7,7 +7,7 @@ const countEntrants = (entrants) => {
   return { child: childrens, adult: adults, senior: olds };
 };
 const calculateEntry = (entrants) => {
-  if (entrants === undefined || entrants === {} ) {
+  if (entrants === undefined || Object.keys(entrants).length === 0) {
     return 0;
   }
   const priceKids = countEntrants(entrants).child * data.prices.child;
@@ -15,16 +15,5 @@ const calculateEntry = (entrants) => {
   const priceSenior = countEntrants(entrants).senior * data.prices.senior;
   return priceKids + priceAdult + priceSenior;
 };
-
-const entrants = [
-  { name: 'Humberto', age: 5 },
-  { name: 'Humberto', age: 5 },
-  { name: 'Humberto', age: 5 },
-  { name: 'Humberto', age: 18 },
-  { name: 'Humberto', age: 18 },
-  { name: 'Humberto', age: 50 },
-];
-
-console.log(calculateEntry());
 
 module.exports = { calculateEntry, countEntrants };
