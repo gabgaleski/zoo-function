@@ -12,13 +12,13 @@ const getRelatedEmployees = (managerId) => {
   if (isManager(managerId) === false) {
     throw new Error('O id inserido não é de uma pessoa colaboradora gerente!');
   }
-  const save = [];
+  const names = [];
   data.employees.forEach((employer) => {
-    if (employer.managers == managerId) {
-      save.push(`${employer.firstName} ${employer.lastName}`);
+    if (employer.managers.includes(managerId)) {
+      names.push(`${employer.firstName} ${employer.lastName}`);
     }
   });
-  return save;
+  return names;
 };
 
 console.log(getRelatedEmployees('9e7d4524-363c-416a-8759-8aa7e50c0992'));
