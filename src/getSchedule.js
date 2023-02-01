@@ -7,7 +7,6 @@ const getSchedule = (scheduleTarget) => {
     const objValues = Object.values(obj);
     const objOpen = objValues.map((element) => element.open);
     const objClose = objValues.map((element) => element.close);
-    // const filter = data.species.filter((animal) => animal.availability);
     return objKeys.map((element, index) => ({
       [objKeys[index]]: {
         officeHour: `Open from ${objOpen[index]}am until ${objClose[index]}pm`,
