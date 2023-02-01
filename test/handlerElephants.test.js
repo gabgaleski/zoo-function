@@ -28,4 +28,8 @@ describe('Testes da função HandlerElephants', () => {
   it('Verifica se retorna null para outros parametros', () => {
     expect(handlerElephants('Age')).toBe(null);
   });
+
+  it('Verifica se retorna a popularidade correta', () => {
+    expect(handlerElephants('popularity')).toBe(5);
+  });
 });
