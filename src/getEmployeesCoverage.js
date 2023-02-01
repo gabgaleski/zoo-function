@@ -1,21 +1,17 @@
 const data = require('../data/zoo_data');
 
-const ifNoParam = () => {
-  return data.employees.map((employer) => {
-    return {
-      id: employer.id,
-      fullName: `${employer.firstName} ${employer.lastName}`,
-      species: employer.responsibleFor.map((specie) => {
-        const filter = data.species.find((animal) => specie === animal.id);
-        return filter.name;
-      }),
-      locations: employer.responsibleFor.map((specie) => {
-        const filter = data.species.find((animal) => specie === animal.id);
-        return filter.location;
-      }),
-    };
-  });
-};
+const ifNoParam = () => data.employees.map((employer) => ({
+  id: employer.id,
+  fullName: `${employer.firstName} ${employer.lastName}`,
+  species: employer.responsibleFor.map((specie) => {
+    const filter = data.species.find((animal) => specie === animal.id);
+    return filter.name;
+  }),
+  locations: employer.responsibleFor.map((specie) => {
+    const filter = data.species.find((animal) => specie === animal.id);
+    return filter.location;
+  }),
+}));
 
 const ifHaveParam = (obj) => {
   const getName = data.employees.find((employer) =>
@@ -42,9 +38,7 @@ const getEmployeesCoverage = (obj) => {
   if (obj === undefined) {
     return ifNoParam();
   }
-  ifHaveParam(obj);
+  return ifHaveParam(obj);
 };
-
-console.log(getEmployeesCoverage({ id: 'Id inválido' }));
 
 module.exports = getEmployeesCoverage;
