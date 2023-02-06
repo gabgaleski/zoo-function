@@ -1,23 +1,36 @@
 const data = require('../data/zoo_data');
 
-const getSchedule = (scheduleTarget) => {
-  if (scheduleTarget === undefined) {
-    const obj = data.hours;
-    const objKeys = Object.keys(obj);
-    const objValues = Object.values(obj);
-    const objOpen = objValues.map((element) => element.open);
-    const objClose = objValues.map((element) => element.close);
-    return objKeys.map((element, index) => ({
-      [objKeys[index]]: {
-        officeHour: `Open from ${objOpen[index]}am until ${objClose[index]}pm`,
-        exhibition: 'a',
-      },
-    }));
+const getDays = () => {
+  const { hours } = data;
+  const filterObj = Object.keys(data.hours).reduce((acc, element) => {
+    acc[element] = {
+      officeHour: `Open from ${hours[element].open}am until ${hours[element].close}pm`,
+      exhibition: data.species.filter((specie) => specie.availability.includes(element))
+        .map((animalName) => animalName.name),
+    };
+    return acc;
+  }, {});
+  if (filterObj.Monday) {
+    filterObj.Monday = { officeHour: 'CLOSED', exhibition: 'The zoo will be closed!' };
   }
-  const getAnimal = data.species.find((animal) => scheduleTarget === animal.name);
-  return getAnimal.availability;
+  return filterObj;
 };
 
-console.log(getSchedule());
+const keysObj = Object.keys(data.hours);
+
+const getSchedule = (scheduleTarget) => {
+  if (!scheduleTarget) {
+    return getDays();
+  }
+  if (data.species.some((specie) => specie.name === scheduleTarget)) {
+    const getAnimal = data.species.find((animal) => scheduleTarget === animal.name);
+    return getAnimal.availability;
+  }
+  if (!data.species.some((element) => element.name === scheduleTarget)
+  && !keysObj.includes(scheduleTarget)) {
+    return getDays();
+  }
+  return { [scheduleTarget]: getDays()[scheduleTarget] };
+};
 
 module.exports = getSchedule;
